@@ -1,0 +1,22 @@
+// Equipe: Camila Azevedo do Vale Santiago e Maxwel Gomes dos Santos
+// Avaliação 06: Informática P4
+
+var sqlite3 = require('sqlite3');
+var db = new sqlite3.Database("BD_SCA.db");
+
+db.serialize(function() {
+// Criação das tabelas
+    db.run("Create table if not exists aluno (id integer primary key not null, name text not null)")
+    db.run("Create table if not exists disciplina (id integer primary key not null, nome text not null)")
+    db.run("Create table if not exists professor (id integer primary key not null, nome text not null)")
+    db.run("Create table if not exists matricula (id integer primary key not null, 'alunoid' integer not null, 'disciplinaid' integer not null, 'professorid' integer not null, FOREIGN KEY (alunoid) REFERENCES aluno ('id'), foreign key (professorid) references professor ('id'), foreign key (disciplinaid) references disciplina ('id') ) ")
+    db.run("Create table if not exists professordisciplina (id integer primary key not null, disciplinaid integer not null, professorid integer not null, foreign key (professorid) references professor ('id'), foreign key (disciplinaid) references disciplina ('id') ) ")
+    
+// Inserindo dados nas tabela.
+    db.run(`INSERT INTO aluno (name) VALUES ('maxwel'), ('camila')`)
+    db.run(`INSERT INTO professor (nome) VALUES ('serra'), ('taveira')`)
+    db.run(`INSERT INTO disciplina (nome) VALUES ('banco de dados'),('matematica IV')`)
+    db.run('insert into matricula (alunoid, professorid, disciplinaid) values (1, 1, 1)')
+    db.run(`insert into professordisciplina (professorid, disciplinaid) values (1, 1)`)
+})
+
